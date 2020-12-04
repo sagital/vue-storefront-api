@@ -1,0 +1,20 @@
+name: Docker Image CI
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        uses: actions/checkout@v1
+
+      -
+        name: Login to GitLab
+        uses: docker/login-action@v1
+        with:
+          registry: registry.sagital.ro
+          username: ${{ secrets.SAGITAL_USERNAME }}
+          password: ${{ secrets.SAGITAl_PASSWORD }}
