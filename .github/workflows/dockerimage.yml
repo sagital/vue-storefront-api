@@ -26,7 +26,7 @@ jobs:
 
       -
         name: Build the tagged Docker image
-        run: docker build . --file Dockerfile --tag sagital/vue-storefront-api:${{steps.vars.outputs.tag}} --tag sagital/vue-storefront-api:latest
+        run: docker build . --file docker/vue-storefront-api/Dockerfile --tag sagital/vue-storefront-api:${{steps.vars.outputs.tag}} --tag sagital/vue-storefront-api:latest
 
       -
         name: Push the latest Docker image
