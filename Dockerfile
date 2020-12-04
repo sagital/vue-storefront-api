@@ -17,6 +17,9 @@ COPY config .
 COPY migrations .
 COPY scripts .
 COPY src .
+COPY babel.config.js ./
+COPY tsconfig.json ./
+COPY nodemon.json ./
 
 COPY docker/vue-storefront-api/vue-storefront-api.sh /usr/local/bin/
 
