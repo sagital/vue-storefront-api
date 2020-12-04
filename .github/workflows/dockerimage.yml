@@ -12,9 +12,22 @@ jobs:
         uses: actions/checkout@v1
 
       -
-        name: Login to GitLab
+        name: Login to Sagital Registry
         uses: docker/login-action@v1
         with:
           registry: registry.sagital.ro
-          username: ${{ secrets.SAGITAL_USERNAME }}
-          password: ${{ secrets.SAGITAl_PASSWORD }}
+          username: ${{ secrets.SAGITAL_REGISTRY_USERNAME }}
+          password: ${{ secrets.SAGITAl_REGISTRY_PASSWORD }}
+
+      -
+        name: Get the version
+        id: vars
+        run: echo ::set-output name=tag::$(echo ${GITHUB_REF:10})
+
+      -
+        name: Build the tagged Docker image
+        run: docker build . --file Dockerfile --tag sagital/vue-storefront-api:${{steps.vars.outputs.tag}} --tag sagital/vue-storefront-api:latest
+
+      -
+        name: Push the latest Docker image
+        run: docker push sagital/vue-storefront-api:latest
