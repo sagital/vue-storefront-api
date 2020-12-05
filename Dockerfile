@@ -1,7 +1,5 @@
 FROM node:10-alpine
 
-ENV VS_ENV prod
-
 WORKDIR /var/www
 
 RUN apk add --no-cache curl git
@@ -13,14 +11,17 @@ RUN apk add --no-cache --virtual .build-deps ca-certificates wget python make g+
     yarn install --no-cache && \
     apk del .build-deps
 
-COPY config .
-COPY migrations .
-COPY scripts .
-COPY src .
+COPY config ./config
+COPY migrations ./migrations
+COPY scripts ./scripts
+COPY src ./src
+COPY var ./var
 COPY babel.config.js ./
 COPY tsconfig.json ./
 COPY nodemon.json ./
 
-COPY docker/vue-storefront-api/vue-storefront-api.sh /usr/local/bin/
+RUN yarn run build
 
-CMD ["vue-storefront-api.sh"]
+EXPOSE 8080
+
+CMD ["node",  "dist/src/index.js"]
