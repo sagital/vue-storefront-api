@@ -38,6 +38,11 @@ initializeDb(db => {
   // internal middleware
   app.use(middleware({ config, db }));
 
+  // Kubernetes needs this for status check
+  app.get('/', (req, res) => {
+    res.sendStatus(200)
+  });
+
   // api router
   app.use('/api', api({ config, db }));
   app.use('/img', img({ config, db }));
