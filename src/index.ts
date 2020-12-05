@@ -47,6 +47,11 @@ initializeDb(db => {
   app.post('/invalidate', invalidateCache)
   app.get('/invalidate', invalidateCache)
 
+  // Kubernetes needs this for status check
+  app.get('/', (req, res) => {
+    res.sendStatus(200)
+  });
+
   const port = process.env.PORT || config.get('server.port')
   const host = process.env.HOST || config.get('server.host')
   app.listen(parseInt(port), host, () => {
